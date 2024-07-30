@@ -4,8 +4,8 @@ import '../../../config/colors.dart';
 import '../../../config/images.dart';
 
 class RatingStars extends StatelessWidget {
-  double rating;
-  RatingStars({
+  int rating;
+  RatingStars({super.key, 
     required this.rating
 });
 
@@ -17,22 +17,10 @@ class RatingStars extends StatelessWidget {
 
       child: Row(
         mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text(
-            "($rating)",
-            style: TextStyle(
-                fontFamily: "AppFont",
-                color: AppColors.lightGrey),
-          ),
-          ListView.builder(
-            shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context,index)=> Image.asset(
-        AppImages.starGrey,
-        scale: 3,
-      ),
-              itemCount: 5-rating.toInt()),
+
+
           ListView.builder(
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
@@ -41,6 +29,21 @@ class RatingStars extends StatelessWidget {
         scale: 3,
       ),
               itemCount: rating.toInt()),
+          ListView.builder(
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context,index)=> Image.asset(
+                AppImages.starGrey,
+                scale: 3,
+              ),
+              itemCount: 5-rating.toInt()),
+          Text(
+            "($rating)",
+            style: const TextStyle(
+                fontFamily: "AppFont",
+                color: AppColors.lightGrey),
+          ),
+
         ],
       ),
     );

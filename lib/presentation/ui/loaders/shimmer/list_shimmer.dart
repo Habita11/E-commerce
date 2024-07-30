@@ -12,17 +12,17 @@ class ListShimmerLoader extends StatelessWidget {
       padding: const EdgeInsets.all(0.0),
       child: Shimmer.fromColors(
         direction: ShimmerDirection.ltr,
-        period: Duration(milliseconds: 1000),
+        period: const Duration(milliseconds: 1000),
         baseColor: AppColors.lightGrey.withOpacity(.3),
         highlightColor: AppColors.lightGrey.withOpacity(.1),
         enabled: true,
         child: SingleChildScrollView(
           child: ListView.separated(
             shrinkWrap: true,
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             scrollDirection: Axis.vertical,
               itemBuilder: (context,index)=>Container(
-                margin: EdgeInsets.symmetric(horizontal: 10),
+                margin: const EdgeInsets.symmetric(horizontal: 10),
                 decoration: BoxDecoration(
                   color:Colors.grey ,
                   borderRadius: BorderRadius.circular(15),
@@ -31,7 +31,7 @@ class ListShimmerLoader extends StatelessWidget {
                 width: double.infinity,
                 height: 200,
               ),
-              separatorBuilder: (context,index)=>SizedBox(height: 10,),
+              separatorBuilder: (context,index)=>const SizedBox(height: 10,),
               itemCount: 5),
         ),
       ),

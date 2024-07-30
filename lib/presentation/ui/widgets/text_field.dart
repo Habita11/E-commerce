@@ -31,7 +31,7 @@ class DefaultFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           label,
@@ -63,7 +63,7 @@ class DefaultFormField extends StatelessWidget {
               validator: validator,
               controller: controller,
               obscureText: obscure,
-              textAlign: TextAlign.right,
+              textAlign: TextAlign.start,
               cursorColor: AppColors.loginColor,
               decoration: InputDecoration(
                   errorBorder: OutlineInputBorder(
@@ -74,15 +74,15 @@ class DefaultFormField extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                     borderSide: const BorderSide(color: AppColors.danger),
                   ),
-                  errorStyle: const TextStyle(fontSize: 0.1),
+                  errorStyle: const TextStyle(fontSize: .5,color: Colors.red),
                   hintText: hintText,
                   hintStyle: TextStyle(
                     fontFamily: "AppFont",
                     color: Colors.grey[400],
                   ),
-                  prefixIcon: prefixIcon,
+                  prefixIcon:suffixIcon,
                   prefixIconColor: Colors.grey[400],
-                  suffixIcon: suffixIcon,
+                  suffixIcon: prefixIcon,
                   suffixIconColor: Colors.grey[400],
                   border: InputBorder.none,
                   focusedBorder: OutlineInputBorder(

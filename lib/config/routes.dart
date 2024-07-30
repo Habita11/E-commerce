@@ -14,19 +14,21 @@ import '../presentation/ui/screens/03.home/pages/filter_screen.dart';
 import '../presentation/ui/screens/02.auth/forgetPassword/first_step.dart';
 import '../presentation/ui/screens/02.auth/register_screen.dart';
 import '../presentation/ui/screens/02.auth/forgetPassword/second_step.dart';
+import '../presentation/ui/screens/03.home/profile/language.dart';
 
 Map<String,Widget Function(BuildContext)> routes={
   "HomeScreen":(context)=>HomeScreen(),
   "HomePage":(context)=>HomePage(),
   "LoginScreen":(context)=>LoginScreen(),
   "RegisterScreen":(context)=>RegisterScreen(),
-  "ProductDetails":(context)=>ProductDetails(),
+  "ProductDetails":(context)=>const ProductDetails(),
   "FilterScreen":(context)=>FilterScreen(),
   "OrderScreen":(context)=>OrderScreen(),
-  "OnBoarding":(context)=>OnBoardingScreen(),
-  "splash":(context)=>SplashScreen(),
-  "otp":(context)=>OTPScreen(),
+  "OnBoarding":(context)=> OnBoardingScreen(),
+  "splash":(context)=> SplashScreen(),
+  "otp":(context)=>const OTPScreen(),
   "FirstStep":(context)=>FirstStep(),
-  "SecondStep":(context)=>SecondStep(),
-  "SearchResults":(context)=>SearchResultsScreen(),
+  "SecondStep":(context)=>const SecondStep(),
+  "SearchResults":(context)=>const SearchResultsScreen(),
+  "ChangeLanguage":(context)=> ChangeLanguage(),
 };

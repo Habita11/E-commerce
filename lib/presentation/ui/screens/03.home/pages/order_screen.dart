@@ -1,6 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:matjary/data/data_source.dart';
 import 'package:matjary/presentation/controller/cubit.dart';
 import 'package:matjary/presentation/ui/popups/snackbar.dart';
 import 'package:matjary/presentation/ui/widgets/main_button.dart';
@@ -8,7 +8,6 @@ import 'package:matjary/presentation/ui/widgets/main_text.dart';
 import 'package:matjary/presentation/ui/widgets/text_field.dart';
 
 import '../../../../../config/colors.dart';
-import '../../../../../config/images.dart';
 import '../../../../../domain/entities/product.dart';
 import '../../../../controller/states.dart';
 
@@ -16,17 +15,25 @@ class OrderScreen extends StatelessWidget {
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController addressController = TextEditingController();
+  List order = [];
+
+  OrderScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    nameController.text = "محمد حبيته";
-    phoneController.text = "+201006320722";
+    AppCubit cubit = AppCubit.get(context);
+    List<Product> products = cubit.allProducts.keys.toList();
+    List quantities = cubit.allProducts.values.toList();
+    cubit.allProducts.forEach((key, value) {
+      order.add({"product_id": "${key.id}", "quantity": value});
+    });
+    print(order);
+
+    nameController.text = cubit.user.name;
+    phoneController.text = "+${cubit.user.countryCode} 1006320722";
     addressController.text = "المنصورة-جديله-دوران جديله-الجامع الكبير";
     return BlocConsumer<AppCubit, AppStates>(
         builder: (context, state) {
-          AppCubit cubit = AppCubit.get(context);
-          List<Product> products = cubit.allProducts.keys.toList();
-          List quantities = cubit.allProducts.values.toList();
           return Scaffold(
             backgroundColor: Colors.white,
             body: Padding(
@@ -35,7 +42,7 @@ class OrderScreen extends StatelessWidget {
                 physics: const BouncingScrollPhysics(),
                 slivers: [
                   SliverAppBar(
-                    title: MainText(
+                    title: const MainText(
                       text: 'تفاصيل الطلب',
                       color: AppColors.secondaryColor,
                     ),
@@ -64,7 +71,7 @@ class OrderScreen extends StatelessWidget {
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 5.0),
                                 child: Container(
-                                  padding: EdgeInsets.all(5),
+                                  padding: const EdgeInsets.all(5),
                                   width: double.infinity,
                                   height: 100,
                                   decoration: BoxDecoration(
@@ -99,7 +106,7 @@ class OrderScreen extends StatelessWidget {
                                             ),
                                             MainText(
                                               text:
-                                                  "المجموع : ${((products[index].price * quantities[index]) * (1 - products[index].discount)).toStringAsFixed(2)} ر.س",
+                                                  "المجموع : ${((products[index].price * quantities[index]) * (1 - products[index].discount / 100)).toStringAsFixed(2)} ر.س",
                                               color: AppColors.secondaryColor,
                                               fontSize: 16,
                                             ),
@@ -108,7 +115,7 @@ class OrderScreen extends StatelessWidget {
                                       ),
                                       SizedBox(
                                         width: 100,
-                                        child: Image.asset(
+                                        child: Image.network(
                                           products[index].image,
                                           fit: BoxFit.cover,
                                         ),
@@ -131,7 +138,7 @@ class OrderScreen extends StatelessWidget {
                               fontSize: 18,
                               fontWeight: FontWeight.bold),
                         ),
-                       const  Text(
+                        const Text(
                           "الإجمالي : ",
                           textAlign: TextAlign.right,
                           textDirection: TextDirection.rtl,
@@ -143,8 +150,9 @@ class OrderScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SliverToBoxAdapter(child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20.0),
+                  const SliverToBoxAdapter(
+                      child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 20.0),
                     child: Divider(),
                   )),
                   SliverToBoxAdapter(
@@ -153,7 +161,7 @@ class OrderScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          MainText(
+                          const MainText(
                             text: "تأكيد البيانات",
                             color: AppColors.secondaryColor,
                           ),
@@ -163,17 +171,17 @@ class OrderScreen extends StatelessWidget {
                           DefaultFormField(
                               controller: nameController,
                               hintText: "أدخل اسم المستخدم",
-                              suffixIcon: Icon(Icons.person_2_outlined),
+                              suffixIcon: const Icon(Icons.person_2_outlined),
                               label: "اسم المستخدم"),
                           DefaultFormField(
                               controller: phoneController,
                               hintText: "أدخل رقم الهاتف",
-                              suffixIcon: Icon(Icons.phone_enabled_outlined),
+                              suffixIcon: const Icon(Icons.phone_enabled_outlined),
                               label: "رقم الهاتف"),
                           DefaultFormField(
                               controller: addressController,
                               hintText: "أدخل العنوان",
-                              suffixIcon: Icon(Icons.location_city_outlined),
+                              suffixIcon: const Icon(Icons.location_city_outlined),
                               label: "العنوان"),
                           const SizedBox(
                             height: 10,
@@ -181,17 +189,25 @@ class OrderScreen extends StatelessWidget {
                           MainButton(
                               text: "تأكيد الطلب",
                               onTap: () {
-                                defaultSnackBar(
-                                    context: context,
-                                    content: "تم تأكيد الطلب بنجاح",
-                                    color: AppColors.success);
-                                cubit.clearCart();
-                                Navigator.pushReplacementNamed(
-                                    context, "HomeScreen");
-                                cubit.currentIndex = 3;
+                                addAddress(
+                                        title: nameController.text,
+                                        address: addressController.text,
+                                        phone: phoneController.text,
+                                        countryCode: "20")
+                                    .then((_) {
+                                  placeOrder(order).then((_) {
+                                    defaultSnackBar(
+                                        context: context,
+                                        content: "تم تأكيد الطلب بنجاح",
+                                        color: AppColors.success);
+                                    cubit.clearCart();
+
+                                    Navigator.pushReplacementNamed(
+                                        context, "HomeScreen");
+                                    cubit.currentIndex = 0;
+                                  });
+                                });
                               }),
-
-
                         ],
                       ),
                     ),

@@ -7,6 +7,8 @@ import '../../../widgets/main_button.dart';
 import '../../../widgets/text_field.dart';
 
 class SecondStep extends StatefulWidget {
+  const SecondStep({super.key});
+
   @override
   State<SecondStep> createState() => _SecondStepState();
 }
@@ -49,7 +51,7 @@ class _SecondStepState extends State<SecondStep> {
                     fontSize: 25,
                   ),
                 ),
-                SizedBox(height: 10,),
+                const SizedBox(height: 10,),
                 Text(
                   "أدخل البريد الالكتروني أو رقم الهاتف",
                   textAlign: TextAlign.right,
@@ -76,7 +78,7 @@ class _SecondStepState extends State<SecondStep> {
                           return null;
                         }
                       },
-                      suffixIcon: Icon(Icons.lock_outline_rounded),
+                      suffixIcon: const Icon(Icons.lock_outline_rounded),
                       prefixIcon:IconButton(
                           onPressed: () {
                             setState(() {
@@ -84,8 +86,8 @@ class _SecondStepState extends State<SecondStep> {
                             });
                           },
                           icon:
-                          obscurePassword ? Icon(
-                              Icons.visibility_off_outlined) : Icon(
+                          obscurePassword ? const Icon(
+                              Icons.visibility_off_outlined) : const Icon(
                               Icons.visibility_outlined)
                       ),
                       hintText: "أدخل كلمة المرور الجديدة",
@@ -114,7 +116,7 @@ class _SecondStepState extends State<SecondStep> {
                           return null;
                         }
                       },
-                      suffixIcon: Icon(Icons.lock_clock_outlined),
+                      suffixIcon: const Icon(Icons.lock_clock_outlined),
                       prefixIcon: IconButton(
                           onPressed: () {
                             setState(() {
@@ -122,8 +124,8 @@ class _SecondStepState extends State<SecondStep> {
                             });
                           },
                           icon:
-                          obscureConfirm ? Icon(
-                              Icons.visibility_off_outlined) : Icon(
+                          obscureConfirm ? const Icon(
+                              Icons.visibility_off_outlined) : const Icon(
                               Icons.visibility_outlined)
                       ),
                       hintText: "تأكيد كلمة المرور الجديدة",

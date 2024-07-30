@@ -1,6 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-
-import '../../../../../../config/colors.dart';
+import 'package:matjary/translations/locale_keys.g.dart';
 import '../../../../../../config/images.dart';
 import '../../../../widgets/onboarding.dart';
 
@@ -10,9 +10,8 @@ class ThirdOnboarding extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OnBoardingWidget(
-        title: "التوصيل السريع",
-        text1: "جميع طلباتك تصلك حتى باب المنزل في أسرع وقت",
-        text2: " ممكن و بأفضل حالة",
+        title: LocaleKeys.thirdOnboardTitle.tr(),
+        text1: LocaleKeys.thirdOnboardContent.tr(),
         firstImage: AppImages.wave3,
         secondImage: AppImages.page3);
   }

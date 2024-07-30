@@ -7,11 +7,11 @@ class OnBoardingWidget extends StatelessWidget {
   String firstImage;
   String secondImage;
   String text1;
-  String text2;
+
   String title;
-  OnBoardingWidget({
+  OnBoardingWidget({super.key, 
     required this.text1,
-    required this.text2,
+
     required this.firstImage,
     required this.secondImage,
     required this.title
@@ -31,35 +31,27 @@ class OnBoardingWidget extends StatelessWidget {
             )
         ),
         Positioned(
-            top: 150,
+            top: 120,
             left: 50,
             right: 50,
-            child: Image.asset(secondImage,scale: 2,)),
-        Positioned(
-          bottom: 50,
-          left: 10,
-          right: 10,
+
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Image.asset(secondImage,scale: 2,),
               Text(
                 title,
-                textDirection: TextDirection.rtl,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                     fontSize: 25,
                     color: AppColors.loginColor,
                     fontFamily: "AppFont"),
               ),
-              SizedBox(height: 20,),
+              const SizedBox(height: 20,),
               Text(text1,
-                style: TextStyle(
-                    fontSize: 16,
-                    color: AppColors.lightGrey,
-                    fontFamily: "AppFont"),),
-              Text(text2,
-                style: TextStyle(
+                  textAlign: TextAlign.center,
+                style: const TextStyle(
                     fontSize: 16,
                     color: AppColors.lightGrey,
                     fontFamily: "AppFont"),),

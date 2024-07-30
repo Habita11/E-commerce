@@ -1,0 +1,85 @@
+{
+  "Login": "Login",
+  "phoneValidator": "Phone number can not be empty",
+  "phoneHint": "Enter your phone number",
+  "chooseCountry": "Choose your country",
+  "searchCountry": "Search for your country",
+  "phoneLabel": "Phone",
+  "passwordValidator": "Password can not be empty",
+  "passwordHint": "Enter your password",
+  "passwordLabel": "Password",
+  "forgotPassword": "Forgot password?",
+  "dontHaveAccount": "Don't have an account?",
+  "createAccount": "Create a new account",
+  "register": "Register",
+  "userNameValidator": "User name can not be empty",
+  "userNameHint": "Enter your name",
+  "userNameLabel": "User name",
+  "emailValidator": "E-mail can not be empty",
+  "emailHint": "Enter you e-mail",
+  "emailLabel": "E-mail",
+  "veryWeak": "Very weak",
+  "weak": "Weak",
+  "Medium": "Medium",
+  "Strong": "Strong",
+  "passwordStrengthHint":  "Password can not be less than 8 characters or signs",
+  "confirmPasswordValidator":  "Password is not the same",
+  "ConfirmPasswordHint":  "Re enter your password",
+  "ConfirmPasswordLabel":  "Confirm password",
+  "confirmRegister": "REGISTER",
+  "AlreadyHaveAccount": "Already have an account?",
+  "privacyPolicy":"Privacy Policy",
+  "next": "Next",
+  "startNow": "Start Now",
+  "Skip": "Skip",
+  "firstOnboardTitle": "Best Offers",
+  "secondOnboardTitle": "Easy Shopping",
+  "thirdOnboardTitle": "Fast Delivery",
+  "firstOnboardContent": "See all amazing products all you need in one place",
+  "secondOnboardContent": "Enjoy a great experience, you can have all you need easy and fast",
+  "thirdOnboardContent": " All your orders will be delivered to your door as fast as possible and in perfect condition ",
+  "cart": "Cart",
+  "favorite": "Favourites",
+  "home": "Home",
+  "profile": "Profile",
+  "orders": "My orders",
+  "language": "Language",
+  "about": "About app",
+  "signOut": "Sign Out",
+  "welcomeText": "Hello, welcome 👋",
+  "searchHome": "Search for anything...",
+  "offers": "Offers",
+  "categories": "Categories",
+  "products":"Products",
+  "addToCart":  "Add to Cart",
+  "discount": "off",
+  "confirmOrder": "إتمام الطلب",
+  "total": "Total :"
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

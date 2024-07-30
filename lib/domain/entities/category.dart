@@ -1,9 +1,12 @@
-class Categories {
+
+import 'package:equatable/equatable.dart';
+
+class Categories extends Equatable{
   final int id;
   final String name;
   final String image;
 
-  Categories({
+  const Categories({
     required this.image,
     required this.name,
     required this.id
@@ -15,4 +18,12 @@ class Categories {
           name: json["name"],
           id: json["id"]
       );
+
+  @override
+
+  List<Object?> get props => [
+    image,name,id
+  ];
+
+
 }

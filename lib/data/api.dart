@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 class Api {
-  Future<dynamic> get({required String url, @required String? token}) async {
+  Future<dynamic> get({required String url, @required String? token,headers}) async {
     Map<String, String> headers = {};
 
     if (token != null) {

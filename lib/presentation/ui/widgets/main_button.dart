@@ -9,7 +9,7 @@ class MainButton extends StatelessWidget {
   double fontSize;
   Color? color;
   Color? textColor;
-  MainButton({
+  MainButton({super.key, 
     required this.text,
     required this.onTap,
     this.height=50,
@@ -24,7 +24,7 @@ class MainButton extends StatelessWidget {
     return GestureDetector(
       onTap:onTap ,
       child: Container(
-          padding: EdgeInsets.only(bottom: 5,),
+          padding: const EdgeInsets.only(bottom: 5,),
         decoration: BoxDecoration(
           color: color,
           borderRadius: BorderRadius.circular(10),

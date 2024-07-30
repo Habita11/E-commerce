@@ -1,6 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:matjary/translations/locale_keys.g.dart';
 
-import '../../../../../../config/colors.dart';
 import '../../../../../../config/images.dart';
 import '../../../../widgets/onboarding.dart';
 
@@ -10,9 +11,8 @@ class SecondOnBoarding extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OnBoardingWidget(
-        title: "سهولة التسوق",
-        text1: "استمتع بتجربة مميزة يمكنك الحصول على كل ما تريد",
-        text2: " بسهولة و يسر",
+        title: LocaleKeys.secondOnboardTitle.tr(),
+        text1: LocaleKeys.secondOnboardContent.tr(),
         firstImage: AppImages.wave2,
         secondImage: AppImages.page2);
   }

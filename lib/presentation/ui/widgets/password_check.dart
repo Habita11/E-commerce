@@ -4,7 +4,7 @@ import '../../../config/colors.dart';
 
 class PasswordCheck extends StatelessWidget {
   var color;
-  PasswordCheck({
+  PasswordCheck({super.key, 
     this.color=AppColors.lightGrey
   });
 

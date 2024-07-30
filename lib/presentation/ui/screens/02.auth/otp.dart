@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:matjary/data/data_source.dart';
 import 'package:matjary/presentation/controller/cubit.dart';
 import 'package:matjary/presentation/controller/states.dart';
 import 'package:matjary/presentation/ui/popups/snackbar.dart';
@@ -14,6 +14,8 @@ import '../../../../config/colors.dart';
 import '../../../../config/images.dart';
 
 class OTPScreen extends StatefulWidget {
+  const OTPScreen({super.key});
+
 
   @override
   State<OTPScreen> createState() => _OTPScreenState();
@@ -24,13 +26,13 @@ class _OTPScreenState extends State<OTPScreen> {
 
   final formKey = GlobalKey<FormState>();
 
-  final timer=Timer(Duration(seconds: 40), (){ },
+  final timer=Timer(const Duration(seconds: 40), (){ },
   );
 
   final defaultPinTheme = PinTheme(
     width: 60,
     height: 60,
-    textStyle: TextStyle(fontSize: 20,
+    textStyle: const TextStyle(fontSize: 20,
         color: AppColors.primaryColor,
         fontWeight: FontWeight.w600),
     decoration: BoxDecoration(
@@ -43,9 +45,15 @@ class _OTPScreenState extends State<OTPScreen> {
   Widget build(BuildContext context) {
 
     return BlocConsumer<AppCubit,AppStates>(
+
         builder: (context,state){
       final userData=ModalRoute.of(context)!.settings.arguments as Map;
       AppCubit cubit=AppCubit.get(context);
+      cubit.passwordStrengthText = "";
+      cubit.color = Colors.grey[400]!;
+      cubit.color2 = Colors.grey[400]!;
+      cubit.color3 = Colors.grey[400]!;
+      cubit.color4 = Colors.grey[400]!;
       return Scaffold(
       body: Center(
         child: Form(
@@ -69,7 +77,7 @@ class _OTPScreenState extends State<OTPScreen> {
                   fontSize: 25,
                 ),
               ),
-              SizedBox(height: 10,),
+              const SizedBox(height: 10,),
               Text(
                 "تم إرسال رمز التحقق على ${userData.values.first}",
                 textAlign: TextAlign.right,
@@ -80,10 +88,10 @@ class _OTPScreenState extends State<OTPScreen> {
                   fontSize: 16,
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Pinput(
                 controller: otpController,
-                errorTextStyle: TextStyle(fontSize: .1),
+                errorTextStyle: const TextStyle(fontSize: .1),
                 errorPinTheme: defaultPinTheme.copyWith(
                     decoration: BoxDecoration(
                         color: AppColors.fieldGrey,
@@ -92,7 +100,7 @@ class _OTPScreenState extends State<OTPScreen> {
                     )
                 ),
                 validator: (value) {
-                  if (value != "1564") {
+                  if (value != "1234") {
                     return "Invalid OTP";
                   } else {
                     return null;
@@ -100,10 +108,10 @@ class _OTPScreenState extends State<OTPScreen> {
                 },
                 pinputAutovalidateMode: PinputAutovalidateMode.disabled,
                 autofocus: true,
-                smsCodeMatcher: "1564",
+                smsCodeMatcher: "1234",
                 listenForMultipleSmsOnAndroid: true,
                 androidSmsAutofillMethod: AndroidSmsAutofillMethod.smsUserConsentApi,
-                separatorBuilder: (_) => SizedBox(width: 20,),
+                separatorBuilder: (_) => const SizedBox(width: 20,),
                 defaultPinTheme: defaultPinTheme,
                 focusedPinTheme: defaultPinTheme.copyWith(
                     decoration: BoxDecoration(
@@ -116,10 +124,11 @@ class _OTPScreenState extends State<OTPScreen> {
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 20.0,bottom: 10,left: 10,right: 10),
-                child: MainButton(text: "تأكيد رمز التحقق", onTap: () {
+                child: MainButton(text: "تأكيد رمز التحقق", onTap: () async{
                   if (formKey.currentState!.validate()) {
+                    await checkOTP(phone: userData.values.first, countryCode: "20");
                     if(userData.keys.first=="register")
-                    { Navigator.pushReplacementNamed(context, "HomeScreen");}
+                    { Navigator.pushReplacementNamed(context, "LoginScreen");}
                     else if(userData.keys.first=="forget"){
                       Navigator.pushReplacementNamed(context,"SecondStep");
                     }
@@ -138,7 +147,7 @@ class _OTPScreenState extends State<OTPScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     MainText(text:cubit.start!=0? "إعادة الإرسال (${cubit.start } ث)":"إعادة الإرسال",fontSize: 16,color: cubit.start!=0?AppColors.lightGrey:AppColors.primaryColor,),
-                    SizedBox(width: 5,),
+                    const SizedBox(width: 5,),
                     MainText(text: "لم يصلك الرمز؟",color: Colors.grey[400]!,fontSize: 16),
                   ],
                 ),

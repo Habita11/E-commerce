@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../config/images.dart';
 
 class SplashScreen extends StatefulWidget {
+
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+
   @override
   void initState() {
     super.initState();
@@ -15,9 +19,21 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> navigateToHomeScreen() async {
-    await Future.delayed(Duration(seconds: 2)); // Simulating a delay of 3 seconds
+    await Future.delayed(const Duration(seconds: 2)); // Simulating a delay of 3 seconds
+    SharedPreferences prefs = await _prefs;
+    bool? isFirstTime=prefs.getBool("isFirstTime");
+    bool? isLogged=prefs.getBool("isLogged");
 
-    Navigator.pushReplacementNamed(context, 'OnBoarding');
+    if(isFirstTime == false ){
+      if(isLogged == true){
+        Navigator.pushReplacementNamed(context, 'HomeScreen');
+      }else{
+        Navigator.pushReplacementNamed(context, 'LoginScreen');
+      }
+    }else if(isFirstTime !=false){
+      Navigator.pushReplacementNamed(context, 'OnBoarding');
+    }
+
   }
 
   @override

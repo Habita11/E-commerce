@@ -11,14 +11,14 @@ class GridShimmerLoader extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: Shimmer.fromColors(
-        direction: ShimmerDirection.ltr,
+        direction: ShimmerDirection.rtl,
 
-          period: Duration(milliseconds:1000),
+          period: const Duration(milliseconds:1000),
             baseColor:AppColors.lightGrey.withOpacity(.3),
             highlightColor: AppColors.lightGrey.withOpacity(.1),
             enabled: true,
             child:  SingleChildScrollView(
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 mainAxisSize: MainAxisSize.min,
@@ -27,8 +27,9 @@ class GridShimmerLoader extends StatelessWidget {
                     childAspectRatio:.4,
                     crossAxisCount: 2,
                     mainAxisSpacing: 10,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
+                  crossAxisSpacing: 10,
                     children: List.generate(5, (index) => Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
@@ -36,7 +37,6 @@ class GridShimmerLoader extends StatelessWidget {
                       ),
 
                     )),
-                  crossAxisSpacing: 10,
 
                   )
 

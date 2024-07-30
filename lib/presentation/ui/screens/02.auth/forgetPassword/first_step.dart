@@ -14,6 +14,8 @@ class FirstStep extends StatelessWidget {
 
   TextEditingController controller=TextEditingController();
 
+  FirstStep({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit,AppStates>(builder: (context,state){
@@ -41,7 +43,7 @@ class FirstStep extends StatelessWidget {
                     fontSize: 25,
                   ),
                 ),
-                SizedBox(height: 10,),
+                const SizedBox(height: 10,),
                 Text(
                   "أدخل البريد الالكتروني أو رقم الهاتف",
                   textAlign: TextAlign.right,
@@ -62,7 +64,7 @@ class FirstStep extends StatelessWidget {
                           return null;
                         }
                       },
-                      suffixIcon: Icon(Icons.person_2_rounded),
+                      suffixIcon: const Icon(Icons.person_2_rounded),
                       hintText: "أدخل البريد الإلكتروني أو رقم الهاتف",
                       label: ""),
                 ),

@@ -1,15 +1,18 @@
-import 'package:matjary/config/images.dart';
+import 'package:equatable/equatable.dart';
 
-class Product {
-  String image;
-  int id;
-  double price;
-  double discount;
-  double rating;
-  String name;
-  String category;
+class Product extends Equatable {
+  final String image;
+  final int id;
+  final int price;
+  final int discount;
+  final int rating;
+  final String name;
+  final String category;
+  final int favorite;
+  final String description;
+  final String currency;
 
-  Product(
+  const Product(
       {required this.image,
       required this.category,
       required this.id,
@@ -17,82 +20,58 @@ class Product {
       required this.name,
       required this.rating,
       required this.discount,
+      required this.favorite,
+      required this.description,
+      required this.currency,
       });
+
+  factory Product.fromJSON(Map<String, dynamic> json) => Product(
+      image: json["image"],
+      category: json["category"]["name"],
+      id: json["id"],
+      price: json["price"],
+      name: json["name"],
+      rating: json["rating"]["rate"],
+      discount: json["discount"],
+      favorite: json["favourite"],
+    description: json["description"],
+    currency: json["currency"],
+  );
+
+  @override
+  List<Object?> get props =>
+      [name, id, image, category, price, rating,currency, discount, favorite,description];
 }
 
 class Cart {
-  Map<Product, int> _products = {};
-  double _finalPrice=0;
+  final Map<Product, int> _products = {};
+  double _finalPrice = 0;
 
   void addToCart(Product product, int quantity) {
     _products[product] = quantity;
   }
-  void removeFromCart(Product product){
+
+  void removeFromCart(Product product) {
     _products.remove(product);
   }
-  Map<Product,int> getProducts(){
+
+  Map<Product, int> getProducts() {
     return _products;
   }
-  double getTotal(){
-    _finalPrice=0;
-    _products.entries.forEach((element){
-      double discount=element.key.discount;
-      double price=element.key.price;
-      int quantity=element.value;
-      double cost=price*quantity*(1-discount);
-      _finalPrice=_finalPrice+cost;
-    });
+
+  double getTotal() {
+    _finalPrice = 0;
+    for (var element in _products.entries) {
+      double discount = element.key.discount.toDouble();
+      double price = element.key.price.toDouble();
+      int quantity = element.value;
+      double cost = price * quantity * (1 - (discount / 100));
+      _finalPrice = _finalPrice + cost;
+    }
     return _finalPrice;
   }
-  void emptyCart(){
+
+  void emptyCart() {
     _products.clear();
   }
 }
-
-List<Product> products = [
-  Product(
-      discount: .11,
-      image: AppImages.iphone,
-      category: "موبايلات",
-      id: 1,
-      price: 250,
-      name: "موبايل ابل ايفون 13 (128 جيجابايت) ",
-      rating: 4
-  ),
-  Product(
-      discount: .55,
-      image: AppImages.samsungA,
-      category: "موبايلات",
-      id: 2,
-      price: 200,
-      name: "موبايل سامسونج a30 (128 جيجابايت)",
-      rating: 5
-  ),
-  Product(
-      discount: .25,
-      image: AppImages.iphone,
-      category: "موبايلات",
-      id: 3,
-      price: 350,
-      name: "موبايل ابل ايفون 11 (128 جيجابايت) ",
-      rating: 3
-  ),
-  Product(
-      discount: .2,
-      image: AppImages.samsungA,
-      category: "موبايلات",
-      id: 4,
-      price: 350,
-      name: "موبايل سامسونج a23 (128 جيجابايت) ",
-      rating: 4
-  ),
-  Product(
-      discount: .3,
-      image: AppImages.iphone,
-      category: "موبايلات",
-      id: 5,
-      price: 550,
-      name: "موبايل ابل ايفون 14 (128 جيجابايت) شاشة سوبر ريتينا XDR",
-      rating: 5
-  ),
-];

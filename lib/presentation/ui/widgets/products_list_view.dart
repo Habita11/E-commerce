@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:matjary/data/data_source.dart';
 import 'package:matjary/presentation/ui/widgets/rating.dart';
 import 'package:vibration/vibration.dart';
 
 import '../../../config/colors.dart';
 import '../../../config/images.dart';
 
-import '../../../domain/entities/product.dart';
 import '../../controller/cubit.dart';
 import 'button.dart';
 import 'main_button.dart';
@@ -13,7 +13,7 @@ import 'main_button.dart';
 
 class ProductsList extends StatelessWidget {
   AppCubit cubit;
-  ProductsList({
+  ProductsList({super.key, 
     required this.cubit
 });
 
@@ -29,15 +29,15 @@ class ProductsList extends StatelessWidget {
         .width;
     return  SliverList(
         delegate: SliverChildListDelegate(
-          List.generate(products.length, (index) =>
+          List.generate(cubit.products.length, (index) =>
             Padding(
               padding: const EdgeInsets.only(bottom: 10.0),
               child: GestureDetector(
                 onTap: (){
-                  Navigator.pushReplacementNamed(context, "ProductDetails",arguments: products[index]);
+                  Navigator.pushReplacementNamed(context, "ProductDetails",arguments: cubit.products[index]);
                 },
                 child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 10),
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
                   height: height * .25,
                   decoration: BoxDecoration(
                     border: Border.all(color: AppColors.fieldGrey),
@@ -52,9 +52,9 @@ class ProductsList extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Text(
-                            products[index].category,
+                            cubit.products[index].category,
                             textDirection: TextDirection.rtl,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 color: AppColors.primaryColor,
                                 fontFamily: "AppFont"),
                           ),
@@ -62,17 +62,17 @@ class ProductsList extends StatelessWidget {
                             width: 200,
                             height: 20,
                             child: Text(
-                              products[index].name,
+                              cubit.products[index].name,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               textDirection: TextDirection.rtl,
                               textAlign: TextAlign.right,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   color: AppColors.secondaryColor,
                                   fontFamily: "AppFont"),
                             ),
                           ),
-                          Text(
+                          const Text(
                             "شاشة سوبر ريتينا XDR",
                             textDirection: TextDirection.rtl,
                             textAlign: TextAlign.right,
@@ -80,16 +80,16 @@ class ProductsList extends StatelessWidget {
                                 color: AppColors.lightGrey,
                                 fontFamily: "AppFont"),
                           ),
-                          RatingStars(rating: products[index].rating),
+                          RatingStars(rating: cubit.products[index].rating),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               Stack(children: [
                                 Text(
-                                  "${products[index].price} ر.س",
+                                  "${cubit.products[index].price} ر.س",
                                   textDirection: TextDirection.rtl,
                                   textAlign: TextAlign.right,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontFamily: "AppFont",
                                       color: AppColors.lightGrey),
                                 ),
@@ -102,14 +102,14 @@ class ProductsList extends StatelessWidget {
                                   ),
                                 )
                               ]),
-                              SizedBox(
+                              const SizedBox(
                                 width: 10,
                               ),
                               Text(
-                                "${(products[index].price-products[index].price*products[index].discount).toStringAsFixed(2)} رس",
+                                "${(cubit.products[index].price-cubit.products[index].price*(cubit.products[index].discount*.01)).toStringAsFixed(2)} رس",
                                 textAlign: TextAlign.right,
                                 textDirection: TextDirection.rtl,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontFamily: "AppFont",
                                     fontSize: 16,
@@ -123,7 +123,9 @@ class ProductsList extends StatelessWidget {
                             mainAxisSize: MainAxisSize.max,
                             children: [
                               ViewWidget(
-                                  onTap: () {},
+                                  onTap: () {
+                                    changeFavorites(cubit.products[index].id.toString());
+                                  },
                                   width: width * .13,
                                   height: height * .07,
                                   border: true,
@@ -134,7 +136,7 @@ class ProductsList extends StatelessWidget {
                               MainButton(
                                 fontSize: 14,
                                 onTap: (){
-                                  cubit.appCart.addToCart(products[index], 1);
+                                  cubit.appCart.addToCart(cubit.products[index], 1);
                                   cubit.getAllProducts();
                                   cubit.getTotal();
                                   cubit.isCart=false;
@@ -150,33 +152,7 @@ class ProductsList extends StatelessWidget {
                         ],
 
                       ),
-                      Stack(
-                          children: [
-                            Image.asset(products[index].image,
-                              width: 120,
-                              height: 300,
-                            ),
-                            Positioned(
-                              top: 50,
-                              left: 15,
-                              child: Image.asset(AppImages.discount,
-                                scale: 3,
-                                fit: BoxFit.fitWidth,),
-                            ),
-                            Positioned(
-                                top: 52,
-                                left: 20,
-                                child: Text(
-                                  "خصم${(products[index].discount*100).round()}%",
-                                  textDirection: TextDirection.rtl,
-                                  textAlign: TextAlign.right,
-                                  style: TextStyle(
-                                      fontFamily: "AppFont",
-                                      color: Colors.white),
-                                )),
 
-
-                          ]),
                     ],
                   ),
                 ),

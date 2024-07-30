@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:matjary/config/colors.dart';
@@ -10,6 +11,7 @@ import 'package:vibration/vibration.dart';
 
 import '../../../../../config/images.dart';
 import '../../../../../domain/entities/product.dart';
+import '../../../../../translations/locale_keys.g.dart';
 import '../../../../controller/states.dart';
 
 class ProductDetails extends StatelessWidget {
@@ -32,59 +34,61 @@ class ProductDetails extends StatelessWidget {
               backgroundColor: Colors.white,
               leading: Row(
                 children: [
-                  IconButton(
-                      onPressed: () {
-                      },
-                      icon: Image.asset(AppImages.share,scale: 2,color: Colors.black,)),
-                  IconButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context,"HomeScreen");
-                        cubit.currentIndex = 1;
-                        cubit.isCart = true;
-                      },
-                      icon: SizedBox(
-                        width: 30,
-                        child: Stack(children: [Image.asset(AppImages.cart_no_bg,scale: 1,color: Colors.black87,),
-                    Positioned(
-                        top: 0,
-                    right: 2,
-                        child:cubit.allProducts.isNotEmpty?Badge(
-                          backgroundColor: Colors.red,
-                          textColor: Colors.white,
-                          smallSize: 20,
-                          label: Text("${cubit.allProducts.length}",style: const TextStyle(
-                            color: Colors.white,
-                          ),),
-                        )
-                        :const SizedBox(),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: IconButton(
+                        onPressed: () {
+                          Navigator.pushReplacementNamed(context,"HomeScreen");
+                          cubit.currentIndex = 0;
+                        },
+                        icon: const Icon(Icons.arrow_back_outlined,color: Colors.black,)
+                    ),
                   ),
-                        ]
-                        ),
-                      )
-                  ),
+
                 ],
               ),
               centerTitle: true,
               elevation: 0,
-              title: const Text(
-                "تفاصيل المنتج",
-                style: TextStyle(
+              title:  Text(
+                LocaleKeys.productDetails.tr(),
+                style: const TextStyle(
                     color: Colors.black,
                     fontFamily: "AppFont",
                     fontWeight: FontWeight.bold,
                     fontSize: 20),
               ),
               actions: [
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: IconButton(
+                IconButton(
                     onPressed: () {
-                      Navigator.pushReplacementNamed(context,"HomeScreen");
-                      cubit.currentIndex = 3;
+                      Navigator.pushNamed(context,"HomeScreen");
+                      cubit.currentIndex = 2;
+                      cubit.isCart = true;
                     },
-                    icon: const Icon(Icons.arrow_forward_outlined,color: Colors.black,)
-                  ),
+                    icon: SizedBox(
+                      width: 30,
+                      child: Stack(children: [Image.asset(AppImages.cart_no_bg,scale: 1,color: Colors.black87,),
+                        Positioned(
+                          top: 0,
+                          right: 2,
+                          child:cubit.allProducts.isNotEmpty?Badge(
+                            backgroundColor: Colors.red,
+                            textColor: Colors.white,
+                            smallSize: 20,
+                            label: Text("${cubit.allProducts.length}",style: const TextStyle(
+                              color: Colors.white,
+                            ),),
+                          )
+                              :const SizedBox(),
+                        ),
+                      ]
+                      ),
+                    )
                 ),
+                IconButton(
+                    onPressed: () {
+                    },
+                    icon: Image.asset(AppImages.share,scale: 2,color: Colors.black,)),
+
               ],
             ),
             body: SingleChildScrollView(
@@ -93,15 +97,15 @@ class ProductDetails extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      height: height * .4,
+                      height: height * .2,
                       width: width,
                       decoration: BoxDecoration(
                           border: Border.all(color: AppColors.fieldGrey),
                           borderRadius: BorderRadius.circular(10)),
-                      child: PhotoView(imageProvider: AssetImage(product.image),
+                      child: PhotoView(imageProvider: NetworkImage(product.image),
                       backgroundDecoration: const BoxDecoration(
                         color: Colors.transparent
                       ),),
@@ -126,7 +130,7 @@ class ProductDetails extends StatelessWidget {
                                     border:
                                         Border.all(color: AppColors.fieldGrey),
                                     borderRadius: BorderRadius.circular(10)),
-                                child: Image.asset(
+                                child: Image.network(
                                   product.image,
                                 ),
                               ),
@@ -144,8 +148,6 @@ class ProductDetails extends StatelessWidget {
                     ),
                     Text(
                       product.name,
-                      textAlign: TextAlign.right,
-                      textDirection: TextDirection.rtl,
                       style: const TextStyle(
                           fontFamily: "AppFont",
                           fontWeight: FontWeight.w500,
@@ -156,13 +158,20 @@ class ProductDetails extends StatelessWidget {
                     ),
                     RatingStars(rating: product.rating),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
+                        Image.asset(
+                          AppImages.fire,
+                          scale: 3,
+                        ),
+                        const SizedBox(
+                          width: 2,
+                        ),
                         RichText(
-                          text: const TextSpan(
+                          text:  TextSpan(
                             children: [
                               TextSpan(
-                                  text: "تم شراؤه",
+                                  text: LocaleKeys.purchased.tr(),
                                   style: TextStyle(
                                       color: AppColors.secondaryColor,
                                       fontFamily: "AppFont")),
@@ -178,26 +187,27 @@ class ProductDetails extends StatelessWidget {
                                 text: " ",
                               ),
                               TextSpan(
-                                  text: "مرة",
+                                  text: LocaleKeys.times.tr(),
                                   style: TextStyle(
                                       color: AppColors.secondaryColor,
                                       fontFamily: "AppFont")),
                             ],
                           ),
                         ),
+
+                        const VerticalSeparator(),
+                        Image.asset(
+                          AppImages.sent,
+                          scale: 3,
+                        ),
                         const SizedBox(
                           width: 2,
                         ),
-                        Image.asset(
-                          AppImages.fire,
-                          scale: 3,
-                        ),
-                        const VerticalSeparator(),
                         RichText(
-                          text: const TextSpan(
+                          text:  TextSpan(
                             children: [
                               TextSpan(
-                                  text: "المتبقي",
+                                  text: LocaleKeys.remaining.tr(),
                                   style: TextStyle(
                                       color: AppColors.secondaryColor,
                                       fontFamily: "AppFont")),
@@ -213,40 +223,32 @@ class ProductDetails extends StatelessWidget {
                                 text: " ",
                               ),
                               TextSpan(
-                                  text: "وحدة",
+                                  text: LocaleKeys.pieces.tr(),
                                   style: TextStyle(
                                       color: AppColors.secondaryColor,
                                       fontFamily: "AppFont")),
                             ],
                           ),
                         ),
-                        const SizedBox(
-                          width: 2,
-                        ),
-                        Image.asset(
-                          AppImages.sent,
-                          scale: 3,
-                        )
+
+
                       ],
                     ),
-                    const Padding(
+                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 10.0),
-                      child: Text(
-                        "موبايل ابل ايفون 11 بشريحتين لاتصال وذاكرة داخلية 64 جيجا ويدعم تقنية شبكة الجيل الرابع ال تي اي مع تطبيق فيس تايم، بنفسجي، النسخة العالمية",
-                        textAlign: TextAlign.right,
+                      child: Text(product.description,
                         style: TextStyle(
                           fontFamily: "AppFont",
                           color: AppColors.lightGrey,
                         ),
                       ),
                     ),
-                    const Row(
+                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Text(
-                          "المجموع :",
-                          textDirection: TextDirection.rtl,
-                          textAlign: TextAlign.right,
+                         LocaleKeys.total.tr(),
+
                           style: TextStyle(
                             fontFamily: "AppFont",
                             fontWeight: FontWeight.bold,
@@ -258,8 +260,8 @@ class ProductDetails extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.all(8.0),
                           child: Text(
-                            "حدد الكمية :",
-                            textDirection: TextDirection.rtl,
+                            LocaleKeys.quantity.tr(),
+
                             style: TextStyle(
                               fontFamily: "AppFont",
                               fontWeight: FontWeight.bold,
@@ -273,9 +275,8 @@ class ProductDetails extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          "${(product.price * (1 - product.discount) * quantity).toStringAsFixed(2)} ر.س",
-                          textDirection: TextDirection.rtl,
-                          textAlign: TextAlign.right,
+                          "${(product.price * (1 - (product.discount/100)) * quantity).toStringAsFixed(0)} ${cubit.user.currency}",
+
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontFamily: "AppFont",
@@ -287,16 +288,14 @@ class ProductDetails extends StatelessWidget {
                         ViewWidget(
                           bgColor: Colors.white,
                           onTap: () {
-                            if (quantity != 1) {
-                              quantity--;
-                              cubit.emit(AppChangeCartState());
-                            }
+                            quantity++;
+                            cubit.emit(AppChangeCartState());
                           },
                           width: 40,
                           height: 40,
                           border: true,
                           borderRdius: 5,
-                          text: "-",
+                          text: "+",
                           textColor: AppColors.lightGrey,
                           fontSize: 20,
                         ),
@@ -314,17 +313,20 @@ class ProductDetails extends StatelessWidget {
                         ViewWidget(
                           bgColor: Colors.white,
                           onTap: () {
-                            quantity++;
-                            cubit.emit(AppChangeCartState());
+                            if (quantity != 1) {
+                              quantity--;
+                              cubit.emit(AppChangeCartState());
+                            }
                           },
                           width: 40,
                           height: 40,
                           border: true,
                           borderRdius: 5,
-                          text: "+",
+                          text: "-",
                           textColor: AppColors.lightGrey,
                           fontSize: 20,
                         ),
+
                       ],
                     ),
                     const SizedBox(
@@ -341,7 +343,7 @@ class ProductDetails extends StatelessWidget {
                       },
                       width: double.infinity,
                       height: 50,
-                      text: "أضف للسلة",
+                      text: LocaleKeys.addToCart.tr(),
                       image: AppImages.cart_no_bg,
                       iconColor: Colors.white,
                       fontSize: 20,
@@ -352,8 +354,8 @@ class ProductDetails extends StatelessWidget {
                     const SizedBox(
                       height: 20,
                     ),
-                    const Text(
-                      "مميزات المنتج",
+                    Text(
+                      LocaleKeys.productDetails.tr(),
                       style: TextStyle(
                           fontFamily: "AppFont",
                           color: AppColors.secondaryColor,
@@ -400,8 +402,8 @@ class ProductDetails extends StatelessWidget {
                                             AppColors.fieldGrey)
                                         : MaterialStateProperty.all(
                                             Colors.white),
-                                    cells: [
-                                      const DataCell(Center(
+                                    cells: const [
+                                      DataCell(Center(
                                         child: Text(
                                           "أبل",
                                           style: TextStyle(
@@ -410,7 +412,7 @@ class ProductDetails extends StatelessWidget {
                                               fontSize: 16),
                                         ),
                                       )),
-                                      const DataCell(Center(
+                                      DataCell(Center(
                                         child: Text(
                                           "العلامة التجارية",
                                           style: TextStyle(

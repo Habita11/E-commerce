@@ -16,7 +16,7 @@ class ViewWidget extends StatelessWidget {
   double borderRdius;
 
 
-  ViewWidget({
+  ViewWidget({super.key, 
     this.textColor = Colors.white,
     this.image,
      this.iconColor=AppColors.lightGrey,
@@ -68,6 +68,13 @@ class ViewWidget extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        Image.asset(
+                          image!,
+                          color: iconColor,
+                          scale:2 ,
+
+
+                        ),
                         Padding(
                           padding: const EdgeInsets.all(5.0),
                           child: Text(
@@ -80,13 +87,7 @@ class ViewWidget extends StatelessWidget {
 
                           ),
                         ),
-                        Image.asset(
-                          image!,
-                          color: iconColor,
-                          scale:2 ,
 
-
-                        ),
 
                       ],
                     ),
